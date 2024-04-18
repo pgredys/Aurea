@@ -1,2 +1,2 @@
-# Aurea-
+# Aurëa 
 Weather App
