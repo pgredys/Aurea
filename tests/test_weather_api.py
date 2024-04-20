@@ -1,10 +1,9 @@
-import unittest
-
 import logging
+import unittest
 
 from weather_api import WeatherAPI
 
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
+logging.basicConfig(format='%(levelname)s:%(module)s:%(message)s', level=logging.INFO)
 logger = logging.getLogger(__file__)
 
 
@@ -12,8 +11,6 @@ class TestWeatherAPI(unittest.TestCase):
 
     def setUp(self):
         self.weather_api = WeatherAPI()
-        logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
-        self.logger = logging.getLogger(__file__)
 
     def test_connection(self):
         logger.info(f'Testing connection to weather api')
@@ -21,9 +18,8 @@ class TestWeatherAPI(unittest.TestCase):
         self.assertEqual(200, answer)
         logger.info(f'Connection to weather api code: {answer}\n')
 
-    def test_get_city_name(self):
+    def test_get_city_name(self, city='London'):
         logger.info(f'Testing get_city_name method')
-        city = 'London'
         answer = self.weather_api.get('London')
         self.assertIsNotNone(answer)
         self.assertIsNotNone(answer['weather'])
