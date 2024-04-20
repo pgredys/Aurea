@@ -3,11 +3,17 @@ from PIL import Image
 
 import customtkinter
 
+from weather import Weather
+from weather_api import WeatherAPI
+
 
 class App(customtkinter.CTk):
     """ The main application window """
 
     def __init__(self):
+        self.weather = None
+        self.weather_api = WeatherAPI()
+
         super().__init__()
 
         customtkinter.set_appearance_mode('dark')
@@ -38,11 +44,22 @@ class App(customtkinter.CTk):
         self.image_label.grid(row=3, column=0, padx=(20, 20), pady=(20, 20), columnspan=2)
 
         # temperature label
-        self.temperature_lbl = customtkinter.CTkLabel(self, text='Temperature', font=('italic', 16))
+        self.temperature_lbl = customtkinter.CTkLabel(self, text='Temperature', font=('italic', 21))
         self.temperature_lbl.grid(row=4, column=0, padx=(20, 20), pady=(20, 20), columnspan=2)
 
     def search_btn_callback(self):
-        pass
+        self.city_text.set(self.city_entry.get())
+        self.location_lbl.configure(text=self.city_entry.get())
+
+        self.weather_request()
+
+        self.temperature_lbl.configure(text=str(self.weather.temp) + ' ℃')
+        new_icon = customtkinter.CTkImage(Image.open(f'icons/{self.weather.weather['icon']}.png'), size=(150, 150))
+        self.image_label.configure(image = new_icon)
+
+    def weather_request(self):
+        weather_response = self.weather_api.get(self.city_text.get())
+        self.weather = Weather(weather_response)
 
 
 if __name__ == '__main__':

@@ -1,4 +1,3 @@
-import inspect
 from pathlib import Path
 
 import requests
@@ -20,6 +19,7 @@ class WeatherAPI:
         url = self.url_city_name.format(city_name=city_name, API_key=self.API_KEY)
         response = requests.get(url)
         return response.json()
+
 
 if __name__ == "__main__":
     weather_api = WeatherAPI()
