@@ -44,11 +44,11 @@ class App(customtkinter.CTk):
         self.image_label.grid(row=3, column=0, padx=(20, 20), pady=(20, 0), columnspan=2)
 
         # weather description label
-        self.weather_lbl = customtkinter.CTkLabel(self, text='Weather', font=('Bolt', 18))
+        self.weather_lbl = customtkinter.CTkLabel(self, text='', font=('Bolt', 18))
         self.weather_lbl.grid(row=4, column=0, padx=(20, 20), pady=(0, 0), columnspan=2)
 
         # temperature label
-        self.temperature_lbl = customtkinter.CTkLabel(self, text='Temperature', font=('italic', 21))
+        self.temperature_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 21))
         self.temperature_lbl.grid(row=5, column=0, padx=(20, 20), pady=(20, 20), columnspan=2)
 
     def search_btn_callback(self):
