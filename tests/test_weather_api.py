@@ -1,7 +1,7 @@
 import logging
 import unittest
 
-from weather_api import WeatherAPI
+from src.weather_api import WeatherAPI
 
 logging.basicConfig(format='%(levelname)s:%(module)s:%(message)s', level=logging.INFO)
 logger = logging.getLogger(__file__)
