@@ -41,25 +41,36 @@ class App(customtkinter.CTk):
         # weather icon
         self.weather_img = customtkinter.CTkImage(Image.open('icons/01d.png'), size=(150, 150))
         self.image_label = customtkinter.CTkLabel(self, image=self.weather_img, text="")
-        self.image_label.grid(row=3, column=0, padx=(20, 20), pady=(20, 20), columnspan=2)
+        self.image_label.grid(row=3, column=0, padx=(20, 20), pady=(20, 0), columnspan=2)
+
+        # weather description label
+        self.weather_lbl = customtkinter.CTkLabel(self, text='Weather', font=('Bolt', 18))
+        self.weather_lbl.grid(row=4, column=0, padx=(20, 20), pady=(0, 0), columnspan=2)
 
         # temperature label
         self.temperature_lbl = customtkinter.CTkLabel(self, text='Temperature', font=('italic', 21))
-        self.temperature_lbl.grid(row=4, column=0, padx=(20, 20), pady=(20, 20), columnspan=2)
+        self.temperature_lbl.grid(row=5, column=0, padx=(20, 20), pady=(20, 20), columnspan=2)
 
     def search_btn_callback(self):
         self.city_text.set(self.city_entry.get())
-        self.location_lbl.configure(text=self.city_entry.get())
-
         self.weather_request()
 
+    def update_weather_labels(self):
+        self.location_lbl.configure(text=self.city_entry.get())
         self.temperature_lbl.configure(text=str(self.weather.temp) + ' ℃')
         new_icon = customtkinter.CTkImage(Image.open(f'icons/{self.weather.weather['icon']}.png'), size=(150, 150))
-        self.image_label.configure(image = new_icon)
+        self.image_label.configure(image=new_icon)
+        self.weather_lbl.configure(text=self.weather.weather['description'].title())
 
     def weather_request(self):
         weather_response = self.weather_api.get(self.city_text.get())
-        self.weather = Weather(weather_response)
+        if weather_response:
+            self.weather = Weather(weather_response)
+            self.update_weather_labels()
+        else:
+            self.location_lbl.configure(text='non response')
+            # self.weather = Weather_MockUp()
+            pass
 
 
 if __name__ == '__main__':
