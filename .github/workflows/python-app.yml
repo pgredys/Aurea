@@ -32,6 +32,10 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         echo "API_KEY=${{ secrets.API_KEY }}" >> src/.env
         cat src/.env
+    - name: "Read file contents"
+      uses: andstor/file-reader-action@v1
+      with:
+        path: "src/.env"
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
