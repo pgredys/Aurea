@@ -1,5 +1,5 @@
 import tkinter
-from PIL import Image
+from PIL import Image, ImageFilter
 
 import customtkinter
 
@@ -96,7 +96,10 @@ class App(customtkinter.CTk):
         self.location_lbl.configure(text=self.city_entry.get())
         self.temperature_lbl.configure(text=str(self.weather.temp) + ' ℃')
 
-        new_icon = customtkinter.CTkImage(Image.open(f'icons/{self.weather.weather['icon']}.png'), size=(150, 150))
+        icon_img = Image.open(f'icons/{self.weather.weather['icon']}.png')
+        new_icon = customtkinter.CTkImage(dark_image=icon_img,
+                                          light_image=icon_img.point(lambda p:  p - 45 if p > 45 else p),
+                                          size=(150, 150))
         self.image_label.configure(image=new_icon)
         self.weather_lbl.configure(text=self.weather.weather['description'].title())
 
