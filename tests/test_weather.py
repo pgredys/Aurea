@@ -29,9 +29,9 @@ class MyTestCase(unittest.TestCase):
         self.assertIsInstance(weather.pressure, numbers.Number)
         self.assertIsInstance(weather.humidity, numbers.Number)
         self.assertIsInstance(weather.wind, dict)
-        self.assertIsInstance(weather.clouds, dict)
-        self.assertIsInstance(weather.sunrise, int)
-        self.assertIsInstance(weather.sunset, int)
+        self.assertIsInstance(weather.clouds, numbers.Number)
+        self.assertIsInstance(weather.sunrise, str)
+        self.assertIsInstance(weather.sunset, str)
 
 
 if __name__ == '__main__':

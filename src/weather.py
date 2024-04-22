@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 
 
 @dataclass
@@ -10,9 +11,9 @@ class Weather:
     pressure: float
     humidity: float
     wind: dict
-    clouds: dict
-    sunrise: int
-    sunset: int
+    clouds: float
+    sunrise: str
+    sunset: str
 
     def __init__(self, response: dict):
         self.weather = response['weather'][0]
@@ -21,6 +22,6 @@ class Weather:
         self.pressure = response['main']['pressure']
         self.humidity = response['main']['humidity']
         self.wind = response['wind']
-        self.clouds = response['clouds']
-        self.sunrise = response['sys']['sunrise']
-        self.sunset = response['sys']['sunset']
+        self.clouds = response['clouds']['all']
+        self.sunrise = datetime.fromtimestamp(int(response['sys']['sunrise'])).strftime('%H:%M')
+        self.sunset = datetime.fromtimestamp(int(response['sys']['sunset'])).strftime('%H:%M')

@@ -13,13 +13,13 @@ class TestWeatherAPI(unittest.TestCase):
         self.weather_api = WeatherAPI()
 
     def test_connection(self):
-        logger.info(f'Testing connection to weather api')
+        logger.info('Testing connection to weather api')
         answer = self.weather_api.connection()
         self.assertEqual(200, answer)
         logger.info(f'Connection to weather api code: {answer}\n')
 
     def test_get_city_name(self, city='London'):
-        logger.info(f'Testing get_city_name method')
+        logger.info('Testing get_city_name method')
         answer = self.weather_api.get('London')
         self.assertIsNotNone(answer)
         self.assertIsNotNone(answer['weather'])
