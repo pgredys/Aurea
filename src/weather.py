@@ -22,6 +22,6 @@ class Weather:
         self.pressure = response['main']['pressure']
         self.humidity = response['main']['humidity']
         self.wind = response['wind']
-        self.clouds = response['clouds']
+        self.clouds = response['clouds']['all']
         self.sunrise = datetime.fromtimestamp(int(response['sys']['sunrise'])).strftime('%H:%M')
         self.sunset = datetime.fromtimestamp(int(response['sys']['sunset'])).strftime('%H:%M')

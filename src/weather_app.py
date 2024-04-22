@@ -49,32 +49,38 @@ class App(customtkinter.CTk):
         self.weather_lbl.grid(row=4, column=0, padx=(20, 20), pady=(0, 0), columnspan=2)
 
         # temperature label
-        self.temperature_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 21))
+        self.temperature_lbl = customtkinter.CTkLabel(self, text='', font=('Bolt', 21))
         self.temperature_lbl.grid(row=5, column=0, padx=(20, 20), pady=(20, 20), columnspan=2)
 
         # feels like temp label
-        self.feels_like_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
+        self.feels_like_lbl = customtkinter.CTkLabel(self, text='', font=('Bolt', 15))
         self.feels_like_lbl.grid(row=6, column=0, padx=(100, 45), pady=(0, 0), columnspan=1, sticky=tkinter.N)
-        self.feels_like_value_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
+        self.feels_like_value_lbl = customtkinter.CTkLabel(self, text='', font=('Bolt', 15))
         self.feels_like_value_lbl.grid(row=6, column=1, padx=(0, 0), pady=(0, 0), columnspan=1, sticky='w')
 
         # pressure label
-        self.pressure_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
+        self.pressure_lbl = customtkinter.CTkLabel(self, text='', font=('Bolt', 15))
         self.pressure_lbl.grid(row=7, column=0, padx=(100, 45), pady=(0, 0), columnspan=1, sticky=tkinter.N)
-        self.pressure_value_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
+        self.pressure_value_lbl = customtkinter.CTkLabel(self, text='', font=('Bolt', 15))
         self.pressure_value_lbl.grid(row=7, column=1, padx=(0, 0), pady=(0, 0), columnspan=1, sticky='w')
 
         # pressure label
-        self.humidity_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
+        self.humidity_lbl = customtkinter.CTkLabel(self, text='', font=('Bolt', 15))
         self.humidity_lbl.grid(row=8, column=0, padx=(100, 45), pady=(0, 0), columnspan=1, sticky=tkinter.N)
-        self.humidity_value_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
+        self.humidity_value_lbl = customtkinter.CTkLabel(self, text='', font=('Bolt', 15))
         self.humidity_value_lbl.grid(row=8, column=1, padx=(0, 0), pady=(0, 0), columnspan=1, sticky='w')
 
         # wind label
-        self.wind_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
+        self.wind_lbl = customtkinter.CTkLabel(self, text='', font=('Bolt', 15))
         self.wind_lbl.grid(row=9, column=0, padx=(100, 52), pady=(0, 0), columnspan=1, sticky=tkinter.E)
-        self.wind_value_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
+        self.wind_value_lbl = customtkinter.CTkLabel(self, text='', font=('Bolt', 15))
         self.wind_value_lbl.grid(row=9, column=1, padx=(0, 0), pady=(0, 0), columnspan=1, sticky='w')
+
+        # clouds label
+        self.clouds_lbl = customtkinter.CTkLabel(self, text='', font=('Bolt', 15))
+        self.clouds_lbl.grid(row=10, column=0, padx=(100, 52), pady=(0, 0), columnspan=1, sticky=tkinter.E)
+        self.clouds_value_lbl = customtkinter.CTkLabel(self, text='', font=('Bolt', 15))
+        self.clouds_value_lbl.grid(row=10, column=1, padx=(0, 0), pady=(0, 0), columnspan=1, sticky='w')
 
     def search_btn_callback(self):
         self.city_text.set(self.city_entry.get())
@@ -98,6 +104,9 @@ class App(customtkinter.CTk):
                                            light_image=Image.open(f'icons/dir_l.png').rotate(self.weather.wind['deg']),
                                            size=(20, 20))
         self.wind_value_lbl.configure(image=wind_icon, compound=tkinter.RIGHT)
+        self.clouds_lbl.configure(text='Clouds:')
+        self.clouds_value_lbl.configure(text=str(self.weather.clouds) + '  %')
+
 
     def weather_request(self):
         weather_response = self.weather_api.get(self.city_text.get())
