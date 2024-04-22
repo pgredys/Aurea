@@ -1,7 +1,7 @@
 import tkinter
-from PIL import Image, ImageFilter
 
 import customtkinter
+from PIL import Image
 
 from weather import Weather
 from weather_api import WeatherAPI
@@ -114,8 +114,8 @@ class App(customtkinter.CTk):
 
         self.wind_lbl.configure(text='Wind:')
         self.wind_value_lbl.configure(text=str(self.weather.wind['speed']) + '  m/s  ', compound=tkinter.LEFT)
-        wind_icon = customtkinter.CTkImage(dark_image=Image.open(f'icons/dir_d.png').rotate(self.weather.wind['deg']),
-                                           light_image=Image.open(f'icons/dir_l.png').rotate(self.weather.wind['deg']),
+        wind_icon = customtkinter.CTkImage(dark_image=Image.open('icons/dir_d.png').rotate(self.weather.wind['deg']),
+                                           light_image=Image.open('icons/dir_l.png').rotate(self.weather.wind['deg']),
                                            size=(20, 20))
         self.wind_value_lbl.configure(image=wind_icon, compound=tkinter.RIGHT)
 
