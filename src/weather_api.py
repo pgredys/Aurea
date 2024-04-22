@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 import requests
 from dotenv import dotenv_values
@@ -26,4 +27,4 @@ class WeatherAPI:
 
 if __name__ == "__main__":
     weather_api = WeatherAPI()
-    print(weather_api.get(city_name='London, uk'))
+    print(json.dumps(weather_api.get(city_name='London, uk'), indent=2))
