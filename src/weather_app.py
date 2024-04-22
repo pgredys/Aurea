@@ -22,7 +22,8 @@ class App(customtkinter.CTk):
         self.geometry("400x550")
         self.title('Weather App')
 
-        self.grid_columnconfigure((0, 1), weight=1)
+        self.grid_columnconfigure((0, 0), weight=1)
+        self.grid_rowconfigure((0, 0), weight=0)
 
         self.city_text = tkinter.StringVar()
 
@@ -49,7 +50,13 @@ class App(customtkinter.CTk):
 
         # temperature label
         self.temperature_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 21))
-        self.temperature_lbl.grid(row=5, column=0, padx=(20, 20), pady=(20, 20), columnspan=2)
+        self.temperature_lbl.grid(row=5, column=0, padx=(20, 20), pady=(20, 10), columnspan=2)
+
+        # feels like label
+        self.feels_like_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
+        self.feels_like_lbl.grid(row=6, column=0, padx=(25, 25), pady=(0, 0), columnspan=1, sticky=tkinter.E)
+        self.feels_like_value_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
+        self.feels_like_value_lbl.grid(row=6, column=1, padx=(0, 0), pady=(0, 0), columnspan=1,sticky='w')
 
     def search_btn_callback(self):
         self.city_text.set(self.city_entry.get())
@@ -61,6 +68,8 @@ class App(customtkinter.CTk):
         new_icon = customtkinter.CTkImage(Image.open(f'icons/{self.weather.weather['icon']}.png'), size=(150, 150))
         self.image_label.configure(image=new_icon)
         self.weather_lbl.configure(text=self.weather.weather['description'].title())
+        self.feels_like_lbl.configure(text='Feels like:')
+        self.feels_like_value_lbl.configure(text=str(self.weather.feels_like) + ' ℃')
 
     def weather_request(self):
         weather_response = self.weather_api.get(self.city_text.get())
