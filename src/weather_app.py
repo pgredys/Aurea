@@ -52,11 +52,17 @@ class App(customtkinter.CTk):
         self.temperature_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 21))
         self.temperature_lbl.grid(row=5, column=0, padx=(20, 20), pady=(20, 10), columnspan=2)
 
-        # feels like label
+        # feels like temp label
         self.feels_like_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
-        self.feels_like_lbl.grid(row=6, column=0, padx=(25, 25), pady=(0, 0), columnspan=1, sticky=tkinter.E)
+        self.feels_like_lbl.grid(row=6, column=0, padx=(100, 45), pady=(0, 0), columnspan=1, sticky=tkinter.N)
         self.feels_like_value_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
         self.feels_like_value_lbl.grid(row=6, column=1, padx=(0, 0), pady=(0, 0), columnspan=1,sticky='w')
+
+        # pressure label
+        self.pressure_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
+        self.pressure_lbl.grid(row=7, column=0, padx=(100, 45), pady=(0, 0), columnspan=1, sticky=tkinter.N)
+        self.pressure_value_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
+        self.pressure_value_lbl.grid(row=7, column=1, padx=(0, 0), pady=(0, 0), columnspan=1, sticky='w')
 
     def search_btn_callback(self):
         self.city_text.set(self.city_entry.get())
@@ -70,6 +76,8 @@ class App(customtkinter.CTk):
         self.weather_lbl.configure(text=self.weather.weather['description'].title())
         self.feels_like_lbl.configure(text='Feels like:')
         self.feels_like_value_lbl.configure(text=str(self.weather.feels_like) + ' ℃')
+        self.pressure_lbl.configure(text='Pressure:')
+        self.pressure_value_lbl.configure(text=str(self.weather.pressure) + '  hPa')
 
     def weather_request(self):
         weather_response = self.weather_api.get(self.city_text.get())
