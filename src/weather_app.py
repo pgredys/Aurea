@@ -128,8 +128,11 @@ class App(customtkinter.CTk):
     def weather_request(self):
         weather_response = self.weather_api.get(self.city_text.get())
         if weather_response:
-            self.weather = Weather(weather_response)
-            self.update_weather_labels()
+            if weather_response['cod'] == 200:
+                self.weather = Weather(weather_response)
+                self.update_weather_labels()
+            else:
+                self.location_lbl.configure(text=weather_response['message'])
         else:
             self.location_lbl.configure(text='No Internet Connection')
 
