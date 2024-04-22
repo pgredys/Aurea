@@ -16,7 +16,7 @@ class App(customtkinter.CTk):
 
         super().__init__()
 
-        customtkinter.set_appearance_mode('dark')
+        customtkinter.set_appearance_mode('light')
         customtkinter.set_default_color_theme('green')
 
         self.geometry("400x550")
@@ -82,6 +82,12 @@ class App(customtkinter.CTk):
         self.clouds_value_lbl = customtkinter.CTkLabel(self, text='', font=('Bolt', 15))
         self.clouds_value_lbl.grid(row=10, column=1, padx=(0, 0), pady=(0, 0), columnspan=1, sticky='w')
 
+        # sun label
+        self.sun_lbl = customtkinter.CTkLabel(self, text='', font=('Bolt', 15))
+        self.sun_lbl.grid(row=11, column=0, padx=(100, 52), pady=(0, 0), columnspan=1, sticky=tkinter.E)
+        self.sun_value_lbl = customtkinter.CTkLabel(self, text='', font=('Bolt', 15))
+        self.sun_value_lbl.grid(row=11, column=1, padx=(0, 0), pady=(0, 0), columnspan=1, sticky='w')
+
     def search_btn_callback(self):
         self.city_text.set(self.city_entry.get())
         self.weather_request()
@@ -89,24 +95,32 @@ class App(customtkinter.CTk):
     def update_weather_labels(self):
         self.location_lbl.configure(text=self.city_entry.get())
         self.temperature_lbl.configure(text=str(self.weather.temp) + ' ℃')
+
         new_icon = customtkinter.CTkImage(Image.open(f'icons/{self.weather.weather['icon']}.png'), size=(150, 150))
         self.image_label.configure(image=new_icon)
         self.weather_lbl.configure(text=self.weather.weather['description'].title())
+
         self.feels_like_lbl.configure(text='Feels like:')
         self.feels_like_value_lbl.configure(text=str(self.weather.feels_like) + ' ℃')
+
         self.pressure_lbl.configure(text='Pressure:')
         self.pressure_value_lbl.configure(text=str(self.weather.pressure) + '  hPa')
+
         self.humidity_lbl.configure(text='Humidity:')
         self.humidity_value_lbl.configure(text=str(self.weather.humidity) + '  %')
+
         self.wind_lbl.configure(text='Wind:')
         self.wind_value_lbl.configure(text=str(self.weather.wind['speed']) + '  m/s  ', compound=tkinter.LEFT)
         wind_icon = customtkinter.CTkImage(dark_image=Image.open(f'icons/dir_d.png').rotate(self.weather.wind['deg']),
                                            light_image=Image.open(f'icons/dir_l.png').rotate(self.weather.wind['deg']),
                                            size=(20, 20))
         self.wind_value_lbl.configure(image=wind_icon, compound=tkinter.RIGHT)
+
         self.clouds_lbl.configure(text='Clouds:')
         self.clouds_value_lbl.configure(text=str(self.weather.clouds) + '  %')
 
+        self.sun_lbl.configure(text='Day:')
+        self.sun_value_lbl.configure(text=self.weather.sunrise + ' → ' + self.weather.sunset)
 
     def weather_request(self):
         weather_response = self.weather_api.get(self.city_text.get())
@@ -114,9 +128,7 @@ class App(customtkinter.CTk):
             self.weather = Weather(weather_response)
             self.update_weather_labels()
         else:
-            self.location_lbl.configure(text='non response')
-            # self.weather = Weather_MockUp()
-            pass
+            self.location_lbl.configure(text='No Internet Connection')
 
 
 if __name__ == '__main__':
