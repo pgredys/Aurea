@@ -11,7 +11,7 @@ class Weather:
     pressure: float
     humidity: float
     wind: dict
-    clouds: dict
+    clouds: float
     sunrise: str
     sunset: str
 
