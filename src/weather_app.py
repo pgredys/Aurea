@@ -56,7 +56,7 @@ class App(customtkinter.CTk):
         self.feels_like_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
         self.feels_like_lbl.grid(row=6, column=0, padx=(100, 45), pady=(0, 0), columnspan=1, sticky=tkinter.N)
         self.feels_like_value_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
-        self.feels_like_value_lbl.grid(row=6, column=1, padx=(0, 0), pady=(0, 0), columnspan=1,sticky='w')
+        self.feels_like_value_lbl.grid(row=6, column=1, padx=(0, 0), pady=(0, 0), columnspan=1, sticky='w')
 
         # pressure label
         self.pressure_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
@@ -69,6 +69,12 @@ class App(customtkinter.CTk):
         self.humidity_lbl.grid(row=8, column=0, padx=(100, 45), pady=(0, 0), columnspan=1, sticky=tkinter.N)
         self.humidity_value_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
         self.humidity_value_lbl.grid(row=8, column=1, padx=(0, 0), pady=(0, 0), columnspan=1, sticky='w')
+
+        # wind label
+        self.wind_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
+        self.wind_lbl.grid(row=9, column=0, padx=(100, 52), pady=(0, 0), columnspan=1, sticky=tkinter.E)
+        self.wind_value_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
+        self.wind_value_lbl.grid(row=9, column=1, padx=(0, 0), pady=(0, 0), columnspan=1, sticky='w')
 
     def search_btn_callback(self):
         self.city_text.set(self.city_entry.get())
@@ -86,6 +92,12 @@ class App(customtkinter.CTk):
         self.pressure_value_lbl.configure(text=str(self.weather.pressure) + '  hPa')
         self.humidity_lbl.configure(text='Humidity:')
         self.humidity_value_lbl.configure(text=str(self.weather.humidity) + '  %')
+        self.wind_lbl.configure(text='Wind:')
+        self.wind_value_lbl.configure(text=str(self.weather.wind['speed']) + '  m/s  ', compound=tkinter.LEFT)
+        wind_icon = customtkinter.CTkImage(dark_image=Image.open(f'icons/dir_d.png').rotate(self.weather.wind['deg']),
+                                           light_image=Image.open(f'icons/dir_l.png').rotate(self.weather.wind['deg']),
+                                           size=(20, 20))
+        self.wind_value_lbl.configure(image=wind_icon, compound=tkinter.RIGHT)
 
     def weather_request(self):
         weather_response = self.weather_api.get(self.city_text.get())
