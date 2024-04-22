@@ -37,12 +37,12 @@ class App(customtkinter.CTk):
 
         # location label
         self.location_lbl = customtkinter.CTkLabel(self, text='Location', font=('Bolt', 26))
-        self.location_lbl.grid(row=2, column=0, padx=(20, 20), pady=(20, 20), columnspan=2)
+        self.location_lbl.grid(row=2, column=0, padx=(20, 20), pady=(20, 0), columnspan=2)
 
         # weather icon
         self.weather_img = customtkinter.CTkImage(Image.open('icons/01d.png'), size=(150, 150))
         self.image_label = customtkinter.CTkLabel(self, image=self.weather_img, text="")
-        self.image_label.grid(row=3, column=0, padx=(20, 20), pady=(20, 0), columnspan=2)
+        self.image_label.grid(row=3, column=0, padx=(20, 20), pady=(0, 0), columnspan=2)
 
         # weather description label
         self.weather_lbl = customtkinter.CTkLabel(self, text='', font=('Bolt', 18))
@@ -50,7 +50,7 @@ class App(customtkinter.CTk):
 
         # temperature label
         self.temperature_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 21))
-        self.temperature_lbl.grid(row=5, column=0, padx=(20, 20), pady=(20, 10), columnspan=2)
+        self.temperature_lbl.grid(row=5, column=0, padx=(20, 20), pady=(20, 20), columnspan=2)
 
         # feels like temp label
         self.feels_like_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
@@ -63,6 +63,12 @@ class App(customtkinter.CTk):
         self.pressure_lbl.grid(row=7, column=0, padx=(100, 45), pady=(0, 0), columnspan=1, sticky=tkinter.N)
         self.pressure_value_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
         self.pressure_value_lbl.grid(row=7, column=1, padx=(0, 0), pady=(0, 0), columnspan=1, sticky='w')
+
+        # pressure label
+        self.humidity_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
+        self.humidity_lbl.grid(row=8, column=0, padx=(100, 45), pady=(0, 0), columnspan=1, sticky=tkinter.N)
+        self.humidity_value_lbl = customtkinter.CTkLabel(self, text='', font=('italic', 15))
+        self.humidity_value_lbl.grid(row=8, column=1, padx=(0, 0), pady=(0, 0), columnspan=1, sticky='w')
 
     def search_btn_callback(self):
         self.city_text.set(self.city_entry.get())
@@ -78,6 +84,8 @@ class App(customtkinter.CTk):
         self.feels_like_value_lbl.configure(text=str(self.weather.feels_like) + ' ℃')
         self.pressure_lbl.configure(text='Pressure:')
         self.pressure_value_lbl.configure(text=str(self.weather.pressure) + '  hPa')
+        self.humidity_lbl.configure(text='Humidity:')
+        self.humidity_value_lbl.configure(text=str(self.weather.humidity) + '  %')
 
     def weather_request(self):
         weather_response = self.weather_api.get(self.city_text.get())
