@@ -16,11 +16,12 @@ class App(customtkinter.CTk):
 
         super().__init__()
 
-        customtkinter.set_appearance_mode('light')
+        customtkinter.set_appearance_mode('system')
         customtkinter.set_default_color_theme('green')
 
         self.geometry("400x550")
         self.title('Weather App')
+        self.resizable(False, False)
 
         self.grid_columnconfigure((0, 0), weight=1)
         self.grid_rowconfigure((0, 0), weight=0)
