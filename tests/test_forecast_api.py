@@ -3,7 +3,7 @@ import unittest
 
 from parameterized import parameterized
 
-from forecast_api import ForecastAPI
+from src.forecast_api import ForecastAPI
 
 logging.basicConfig(format='%(levelname)s:%(module)s:%(message)s', level=logging.INFO)
 logger = logging.getLogger(__file__)
