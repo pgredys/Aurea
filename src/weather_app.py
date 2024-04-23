@@ -3,6 +3,7 @@ import tkinter
 import customtkinter
 from PIL import Image
 
+from forecast_api import ForecastAPI
 from weather import Weather
 from weather_api import WeatherAPI
 
@@ -11,22 +12,28 @@ class App(customtkinter.CTk):
     """ The main application window """
 
     def __init__(self):
+        self.weather_response = None
         self.weather = None
         self.weather_api = WeatherAPI()
+        self.forecast_api = ForecastAPI()
 
         super().__init__()
+
+        self.canvas = tkinter.Canvas(self)
+        self.canvas.bind_all("<MouseWheel>", self._on_mousewheel)
 
         customtkinter.set_appearance_mode('system')
         customtkinter.set_default_color_theme('green')
 
-        self.geometry("400x550")
+        self.geometry("400x840")
         self.title('Weather App')
         self.resizable(False, False)
 
         self.grid_columnconfigure((0, 0), weight=1)
         self.grid_rowconfigure((0, 0), weight=0)
 
-        self.city_text = tkinter.StringVar()
+        self.scrollable_frame = None
+        self.city_text = customtkinter.StringVar()
 
         # city entry
         self.city_entry = customtkinter.CTkEntry(self, textvariable=self.city_text, width=325)
@@ -93,13 +100,19 @@ class App(customtkinter.CTk):
         self.city_text.set(self.city_entry.get())
         self.weather_request()
 
+        if self.scrollable_frame:
+            self.scrollable_frame.grid_forget()
+
+        if self.weather_response['cod'] == 200:
+            self.forecast_request()
+
     def update_weather_labels(self):
         self.location_lbl.configure(text=self.city_entry.get())
         self.temperature_lbl.configure(text=str(self.weather.temp) + ' ℃')
 
         icon_img = Image.open(f'icons/{self.weather.weather['icon']}.png')
         new_icon = customtkinter.CTkImage(dark_image=icon_img,
-                                          light_image=icon_img.point(lambda p:  p - 45 if p > 45 else p),
+                                          light_image=icon_img.point(lambda p: p - 45 if p > 45 else p),
                                           size=(150, 150))
         self.image_label.configure(image=new_icon)
         self.weather_lbl.configure(text=self.weather.weather['description'].title())
@@ -127,15 +140,58 @@ class App(customtkinter.CTk):
         self.sun_value_lbl.configure(text=self.weather.sunrise + ' → ' + self.weather.sunset)
 
     def weather_request(self):
-        weather_response = self.weather_api.get(self.city_text.get())
-        if weather_response:
-            if weather_response['cod'] == 200:
-                self.weather = Weather(weather_response)
+        self.weather_response = self.weather_api.get(self.city_text.get())
+        if self.weather_response:
+            if self.weather_response['cod'] == 200:
+                self.weather = Weather(self.weather_response)
                 self.update_weather_labels()
             else:
-                self.location_lbl.configure(text=weather_response['message'])
+                self.location_lbl.configure(text=self.weather_response['message'])
         else:
             self.location_lbl.configure(text='No Internet Connection')
+
+    def forecast_request(self):
+        """ Forecast request"""
+        data_list = self.forecast_api.get_forecast(lat=self.weather_response['coord']['lat'],
+                                                   lon=self.weather_response['coord']['lon'])
+        self.scrollable_frame = MyScrollableFrame(self, data_list=data_list, width=350, height=245,
+                                                  orientation='horizontal')
+        self.scrollable_frame.grid(row=12, column=0, pady=(20, 20), columnspan=2)
+
+    def _on_mousewheel(self, event):
+        self.canvas.yview_scroll(int(-1 * event.delta), "units")
+
+
+class MyScrollableFrame(customtkinter.CTkScrollableFrame):
+    def __init__(self, master, data_list=None, **kwargs):
+        super().__init__(master, **kwargs)
+
+        self.label = None
+        self.my_frame = None
+
+        if data_list:
+            for index, data in enumerate(data_list):
+                self.add_item(index, data)
+
+    def add_item(self, index: int, data: dict):
+        self.my_frame = MyFrame(master=self)
+        self.my_frame.grid(row=0, column=index, padx=10, pady=10, sticky="nsew")
+
+        self.label = customtkinter.CTkLabel(self.my_frame, text=data['datetime'], font=('Bolt', 15), width=145)
+        self.label.grid(row=0, column=index, padx=5, pady=(10, 0))
+        icon = customtkinter.CTkImage(Image.open(f'icons/{data['icon']}.png'), size=(120, 120))
+        self.label = customtkinter.CTkLabel(self.my_frame, text='', image=icon)
+        self.label.grid(row=2, column=index, padx=5, pady=0)
+        self.label = customtkinter.CTkLabel(self.my_frame, text=data['description'].title())
+        self.label.grid(row=3, column=index, padx=5, pady=0)
+        self.label = customtkinter.CTkLabel(self.my_frame, text=data['temp'], font=('Bolt', 18))
+        self.label.grid(row=4, column=index, padx=10, pady=10)
+
+
+class MyFrame(customtkinter.CTkFrame):
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs)
+        self.configure(border_width=2)
 
 
 if __name__ == '__main__':
