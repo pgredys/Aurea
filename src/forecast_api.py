@@ -13,7 +13,7 @@ class ForecastAPI(OpenWeather):
                     'API_key}&units=metric')
 
     def connection(self):
-        url = self.url.format(lat=50, lon=50, API_key=self.API_KEY)
+        url = self.url.format(lat=50, lon=50, cnt=40, API_key=self.API_KEY)
         response = requests.get(url)
         return response.status_code
 
@@ -26,8 +26,8 @@ class ForecastAPI(OpenWeather):
             print(expt)
             return None
 
-    def get_forecast(self, lat: float, lon: float) -> list[dict] | None:
-        data = self.get(lat=lat, lon=lon)
+    def get_forecast(self, lat: float, lon: float, cnt=24) -> list[dict] | None:
+        data = self.get(lat=lat, lon=lon, cnt=cnt)
 
         if data['cod'] == '200':
             raw_list = data['list']
