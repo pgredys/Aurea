@@ -28,7 +28,7 @@ class MyTestCase(unittest.TestCase):
         logger.info(f'Got forecast in {answer['city']['name']} for {3 * len(answer['list'])} hours\n')
 
     @parameterized.expand([[-40.8, -65.2, 4], [-43.5, 172.6, 8], [35.14, 136.9, 40], [44.8, -0.6, 10], [-1, 32.5, 24]])
-    def test_get_forecast(self,lat, lon, cnt):
+    def test_get_forecast(self, lat, lon, cnt):
         logger.info('Testing forecast api get_forecast method')
         answer = self.forecast_api.get_forecast(lat, lon, cnt)
         self.assertIsNotNone(answer)
@@ -40,7 +40,7 @@ class MyTestCase(unittest.TestCase):
             self.assertTrue('icon' in item)
             self.assertTrue('description' in item)
             self.assertTrue('temp' in item)
-        logger.info(f'Forecast contains required data')
+        logger.info('Forecast contains required data')
         logger.info(f'Got forecast in for {len(answer)} 3-hours time window\n')
 
 

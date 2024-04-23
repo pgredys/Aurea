@@ -3,7 +3,7 @@ from datetime import datetime
 
 import requests
 
-from openweather_api import OpenWeather
+from src.openweather_api import OpenWeather
 
 
 class ForecastAPI(OpenWeather):
