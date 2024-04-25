@@ -24,7 +24,7 @@ class App(customtkinter.CTk):
 
         customtkinter.set_appearance_mode('system')
         customtkinter.set_default_color_theme('green')
-
+ 
         self.geometry("400x840")
         self.title('Weather App')
         self.resizable(False, False)
