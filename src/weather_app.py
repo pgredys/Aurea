@@ -23,7 +23,7 @@ class App(customtkinter.CTk):
         self.canvas.bind_all("<MouseWheel>", self._on_mousewheel)
 
         customtkinter.set_appearance_mode('system')
-        customtkinter.set_default_color_theme('green')
+        customtkinter.set_default_color_theme('./themes/orange.json')
  
         self.geometry("400x840")
         self.title('Weather App')
