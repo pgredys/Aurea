@@ -26,7 +26,7 @@ class App(customtkinter.CTk):
         customtkinter.set_default_color_theme('./themes/orange.json')
  
         self.geometry("400x840")
-        self.title('Weather App')
+        self.title('Aurëa')
         self.resizable(False, False)
 
         self.grid_columnconfigure((0, 0), weight=1)
