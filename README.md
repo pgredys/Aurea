@@ -13,3 +13,9 @@ git https://github.com/pgredys/Aurea.git
 cd Aurea
 pip install -r requirements.txt 
 ```
+
+store your OpenWeather API key inside `src/.env` 
+
+example:
+
+`API_KEY="########"`
