@@ -21,7 +21,7 @@ class MyTestCase(unittest.TestCase):
 
     @parameterized.expand([[-40.8, -65.2, 4], [-43.5, 172.6, 8], [35.14, 136.9, 40], [44.8, -0.6, 10], [-1, 32.5, 24]])
     def test_get(self, lat=50, lon=50, cnt=5):
-        logger.info('Testing forecast api get method')
+        logger.info(f'Testing forecast api get method for lat:{lat}, lon:{lon} and cnt:{cnt}')
         answer = self.forecast_api.get(lat, lon, cnt)
         self.assertIsNotNone(answer)
         self.assertEqual('200', answer['cod'])

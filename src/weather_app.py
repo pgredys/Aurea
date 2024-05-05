@@ -3,9 +3,9 @@ import tkinter
 import customtkinter
 from PIL import Image
 
-from forecast_api import ForecastAPI
-from weather import Weather
-from weather_api import WeatherAPI
+from src.forecast_api import ForecastAPI
+from src.weather import Weather
+from src.weather_api import WeatherAPI
 
 
 class App(customtkinter.CTk):
@@ -24,7 +24,7 @@ class App(customtkinter.CTk):
 
         customtkinter.set_appearance_mode('system')
         customtkinter.set_default_color_theme('./themes/orange.json')
- 
+
         self.geometry("400x840")
         self.title('Aurëa')
         self.resizable(False, False)
