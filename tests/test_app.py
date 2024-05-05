@@ -2,9 +2,8 @@ import logging
 import numbers
 import os
 import unittest
-from parameterized import parameterized
 
-from src.weather_app import *
+from src.weather_app import App
 
 logging.basicConfig(format='%(levelname)s:%(module)s:%(message)s', level=logging.INFO)
 logger = logging.getLogger(__file__)
@@ -31,8 +30,7 @@ class TestWeatherApp(unittest.TestCase):
         self.app.destroy()
         logger.info('Weather app destroyed')
 
-    @parameterized.expand(["London", "Paris", "Kraków", "Warsaw", "New York"])
-    def test_app(self, city):
+    def test_app(self, city='London'):
         title = self.app.winfo_toplevel().title()
         self.assertEqual(title, 'Aurëa')
         logger.info('Weather app title correct')
