@@ -1,67 +1,42 @@
-import tkinter
+import logging
+import numbers
+import os
 import unittest
-from tkinter import ttk
-
 import _tkinter
+from parameterized import parameterized
+
+from weather_app import *
+
+logging.basicConfig(format='%(levelname)s:%(module)s:%(message)s', level=logging.INFO)
+logger = logging.getLogger(__file__)
 
 
-class TKinterTestCase(unittest.TestCase):
-    """These methods are going to be the same for every GUI test,
-    so refactored them into a separate class
-    """
+class TestWeatherApp(unittest.TestCase):
+
     def setUp(self):
-        self.root=tkinter.Tk()
-        self.pump_events()
+        os.chdir('../src')
+        self.app = App()
+        logger.info('Weather app started')
 
     def tearDown(self):
-        if self.root:
-            self.root.destroy()
-            self.pump_events()
+        self.app.quit()
+        self.app.destroy()
+        logger.info('Weather app destroyed')
 
-    def pump_events(self):
-        while self.root.dooneevent(_tkinter.ALL_EVENTS | _tkinter.DONT_WAIT):
-            pass
+    @parameterized.expand(["London", "Paris", "Kraków", "Warsaw", "New York"])
+    def test_app(self, city):
+        title = self.app.winfo_toplevel().title()
+        self.assertEqual(title, 'Aurëa')
+        logger.info('Weather app title correct')
 
-class TestViewAskText(TKinterTestCase):
-    def test_enter(self):
-        v = View_AskText(self.root,value=u"йцу")
-        self.pump_events()
-        v.e.focus_set()
-        v.e.insert(tkinter.END,u'кен')
-        v.e.event_generate('<Return>')
-        self.pump_events()
+        self.app.city_entry.insert(0, city)
+        self.app.search_btn_callback()
+        self.assertEqual(self.app.location_lbl._text, city)
+        logger.info('Entry checked')
 
-        self.assertRaises(tkinter.TclError, lambda: v.top.winfo_viewable())
-        self.assertEqual(v.value,u'йцукен')
-
-
-# ###########################################################
-# The class being tested (normally, it's in a separate module
-# and imported at the start of the test's file)
-# ###########################################################
-
-class View_AskText(object):
-    def __init__(self, master, value=u""):
-        self.value=None
-
-        top = self.top = tkinter.Toplevel(master)
-        top.grab_set()
-        self.l = ttk.Label(top, text=u"Value:")
-        self.l.pack()
-        self.e = ttk.Entry(top)
-        self.e.pack()
-        self.b = ttk.Button(top, text='Ok', command=self.save)
-        self.b.pack()
-
-        if value: self.e.insert(0,value)
-        self.e.focus_set()
-        top.bind('<Return>', self.save)
-
-    def save(self, *_):
-        self.value = self.e.get()
-        self.top.destroy()
+        self.assertIsInstance(float(self.app.temperature_lbl._text[0:-2]), numbers.Number)
+        logger.info('Basic response checked')
 
 
 if __name__ == '__main__':
-    import unittest
     unittest.main()
