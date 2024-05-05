@@ -13,7 +13,7 @@ class TestWeatherApp(unittest.TestCase):
 
     def setUp(self):
         logger.info(os.listdir())
-        path = '../src'
+        path = 'src'
         try:
             os.chdir(path)
             print("Current working directory: {0}".format(os.getcwd()))
