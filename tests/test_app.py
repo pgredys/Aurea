@@ -5,7 +5,7 @@ import unittest
 import _tkinter
 from parameterized import parameterized
 
-from weather_app import *
+from src.weather_app import *
 
 logging.basicConfig(format='%(levelname)s:%(module)s:%(message)s', level=logging.INFO)
 logger = logging.getLogger(__file__)
