@@ -12,7 +12,7 @@ logger = logging.getLogger(__file__)
 class TestWeatherApp(unittest.TestCase):
 
     def test_app(self, city='London'):
-        if os .environ.get('DISPLAY') is not None:
+        if os.environ.get('DISPLAY') is not None:
             path = 'src'
             try:
                 os.chdir(path)
