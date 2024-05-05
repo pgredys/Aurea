@@ -2,7 +2,6 @@ import logging
 import numbers
 import os
 import unittest
-import _tkinter
 from parameterized import parameterized
 
 from src.weather_app import *
@@ -14,7 +13,16 @@ logger = logging.getLogger(__file__)
 class TestWeatherApp(unittest.TestCase):
 
     def setUp(self):
-        os.chdir('../src')
+        path = '../src'
+        try:
+            os.chdir(path)
+            print("Current working directory: {0}".format(os.getcwd()))
+        except FileNotFoundError:
+            print("Directory: {0} does not exist".format(path))
+        except NotADirectoryError:
+            print("{0} is not a directory".format(path))
+        except PermissionError:
+            print("You do not have permissions to change to {0}".format(path))
         self.app = App()
         logger.info('Weather app started')
 
