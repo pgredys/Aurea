@@ -12,7 +12,7 @@ logger = logging.getLogger(__file__)
 class TestWeatherApp(unittest.TestCase):
 
     def setUp(self):
-        os.listdir()
+        logger.info(os.listdir())
         path = '../src'
         try:
             os.chdir(path)

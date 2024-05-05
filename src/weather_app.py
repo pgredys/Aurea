@@ -24,7 +24,7 @@ class App(customtkinter.CTk):
 
         customtkinter.set_appearance_mode('system')
         customtkinter.set_default_color_theme('./themes/orange.json')
- 
+
         self.geometry("400x840")
         self.title('Aurëa')
         self.resizable(False, False)
