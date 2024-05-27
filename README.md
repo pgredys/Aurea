@@ -14,7 +14,7 @@ cd Aurea
 pip install -r requirements.txt 
 ```
 
-store your OpenWeather API key inside `src/.env` 
+save your OpenWeather API key inside `src/.env` 
 
 example:
 
