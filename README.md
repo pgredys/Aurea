@@ -19,3 +19,5 @@ store your OpenWeather API key inside `src/.env`
 example:
 
 `API_KEY="########"`
+
+_register to OpenWeather to get KEY_
